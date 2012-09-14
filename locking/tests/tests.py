@@ -4,6 +4,7 @@ import simplejson
 from django.core.urlresolvers import reverse
 from django.test.client import Client
 from django.contrib.auth.models import User
+from django.utils.timezone import now
 
 from locking import models, views, LOCK_TIMEOUT
 from locking.tests.utils import TestCase
@@ -69,13 +70,13 @@ class AppTestCase(TestCase):
     def test_lock_expiration(self):
         self.story.lock_for(self.user)
         self.assertTrue(self.story.is_locked)
-        self.story._locked_at = datetime.today() - timedelta(minutes=LOCK_TIMEOUT+1)
+        self.story._locked_at = now() - timedelta(minutes=LOCK_TIMEOUT+1)
         self.assertFalse(self.story.is_locked)
 
     def test_lock_expiration_day(self):
         self.story.lock_for(self.user)
         self.assertTrue(self.story.is_locked)
-        self.story._locked_at = datetime.today() - timedelta(days=1, seconds=1)
+        self.story._locked_at = now() - timedelta(days=1, seconds=1)
         self.assertFalse(self.story.is_locked)
 
     def test_lock_seconds_remaining(self):

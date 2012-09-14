@@ -4,15 +4,14 @@ import datetime
 
 """
     LOCKED
-            if (datetime.today() - self.locked_at).seconds < LOCK_TIMEOUT:
-            
-            
+            if (now() - self.locked_at).seconds < LOCK_TIMEOUT:
+
             self.locked_at < (NOW - TIMEOUT)
 """
 
 def point_of_timeout():
     delta = datetime.timedelta(seconds=LOCK_TIMEOUT)
-    return datetime.datetime.now() - delta
+    return now() - delta
 
 class LockedManager(Manager):
     def get_query_set(self):
